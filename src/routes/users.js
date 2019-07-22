@@ -16,12 +16,12 @@ router.get('/api/users', (request, result) => {
                 users.push(user);
             }
             result.send(users);
-            console.log('Query successful!');
+            console.log('Query successful');
         })
         .catch(e => {
             console.error(e.stack);
             result.status(400);
-            result.send(e);
+            result.send(e.stack);
         })
 });
 
@@ -36,6 +36,7 @@ router.get('/api/users/:email', (request, result) => {
             if (res.rows.length == 1) {
                 user = new User(res.rows[0].fullname, res.rows[0].email, res.rows[0].subscriptions);
                 result.send(user);
+                console.log('Query successful');
             }
             else {
                 result.status(204);
@@ -45,7 +46,7 @@ router.get('/api/users/:email', (request, result) => {
         .catch(e => {
             console.log(e.stack);
             result.status(400);
-            result.send(e);
+            result.send(e.stack);
         })
 });
 
@@ -64,7 +65,7 @@ router.post('/api/users', (request, result) => {
         .catch(e => {
             console.log(e.stack);
             result.status(400);
-            result.send(e);
+            result.send(e.stack);
         });
 });
 
@@ -84,9 +85,27 @@ router.put('/api/users/:email', (request, result) => {
         .catch(e => {
             console.log(e.stack);
             result(400);
-            result.send(e);
+            result.send(e.stack);
         });
-})
+});
+
+// DELETE the specified user
+router.delete('/api/users/:email', (request, result) => {
+    const deleteQuery= 'DELETE FROM users WHERE users.email = $1;';
+    const email = request.params.email;
+
+    client.query(deleteQuery, [email])
+    .then(res => {
+        result.status(200);
+        result.send('Ok');
+        console.log('Query successful');
+    })
+    .catch(e => {
+        console.log(e.stack);
+        result.status(400);
+        result.send(e.stack);
+    });
+});
 
 
 module.exports = router;
