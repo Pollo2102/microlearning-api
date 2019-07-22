@@ -1,6 +1,6 @@
 class User {
-    constructor(name, email, subscriptions) {
-        this.name = name;
+    constructor(fullname, email, subscriptions) {
+        this.fullname = fullname;
         this.email = email;
         this.subscriptions = subscriptions;
     }
