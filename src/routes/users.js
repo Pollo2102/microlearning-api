@@ -68,6 +68,25 @@ router.post('/api/users', (request, result) => {
         });
 });
 
+// PUT the specified user (update)
+router.put('/api/users/:email', (request, result) => {
+    const putQuery = 'UPDATE users SET subscriptions=$2 WHERE users.email = $1;';
+    const { subscriptions } = request.body;
+    const email = request.params.email;
+
+    client
+        .query(putQuery, [email, subscriptions])
+        .then(res => {
+            result.status(200);
+            result.send('Ok');
+            console.log('Query successful');
+        })
+        .catch(e => {
+            console.log(e.stack);
+            result(400);
+            result.send(e);
+        });
+})
 
 
 module.exports = router;
