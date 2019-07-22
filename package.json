@@ -1,0 +1,24 @@
+{
+  "name": "microlearning-api",
+  "version": "1.0.0",
+  "description": "Microlearning is a web application that sends you interesting information to your e-mail so that you can learn more every day.",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pollo2102/microlearning-api.git"
+  },
+  "author": "Diego",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pollo2102/microlearning-api/issues"
+  },
+  "homepage": "https://github.com/Pollo2102/microlearning-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^7.11.0"
+  }
+}
