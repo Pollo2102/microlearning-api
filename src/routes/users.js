@@ -47,7 +47,26 @@ router.get('/api/users/:email', (request, result) => {
             result.status(400);
             result.send(e);
         })
-})
+});
+
+// POST the specified user information
+router.post('/api/users', (request, result) => {
+    const postQuery = 'INSERT INTO users(fullname, email, subscriptions) VALUES($1, $2, $3);';
+    const { fullname, email, subscriptions} = request.body;
+
+    client
+        .query(postQuery, [fullname, email, subscriptions])
+        .then(res => {
+            result.status(200);
+            result.send('Ok');
+            console.log('Query successful');
+        })
+        .catch(e => {
+            console.log(e.stack);
+            result.status(400);
+            result.send(e);
+        });
+});
 
 
 
