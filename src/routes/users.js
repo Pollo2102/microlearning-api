@@ -25,6 +25,30 @@ router.get('/api/users', (request, result) => {
         })
 });
 
+// GET the specified user
+router.get('/api/users/:email', (request, result) => {
+    const getQuery = 'SELECT * FROM users WHERE users.email = $1';
+
+    client
+        .query(getQuery, [request.params.email])
+        .then(res => {
+            let user = {};
+            if (res.rows.length == 1) {
+                user = new User(res.rows[0].fullname, res.rows[0].email, res.rows[0].subscriptions);
+                result.send(user);
+            }
+            else {
+                result.status(204);
+                result.send(user);
+            }
+        })
+        .catch(e => {
+            console.log(e.stack);
+            result.status(400);
+            result.send(e);
+        })
+})
+
 
 
 module.exports = router;
